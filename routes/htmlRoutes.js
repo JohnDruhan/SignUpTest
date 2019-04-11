@@ -3,19 +3,19 @@ var db = require("../models");
 module.exports = function(app) {
   // Load index page
   app.get("/", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
+    db.Signup.findAll({}).then(function(dbSignups) {
       res.render("index", {
         msg: "Welcome to MUT Chat",
-        examples: dbExamples
+        signups: dbSignups
       });
     });
   });
 
-  // Load example page and pass in an example by id
-  app.get("/example/:id", function(req, res) {
-    db.Example.findOne({ where: { id: req.params.id } }).then(function(dbExample) {
-      res.render("example", {
-        example: dbExample
+  // Load signup page and pass in an signup by id
+  app.get("/signup/:id", function(req, res) {
+    db.Signup.findOne({ where: { id: req.params.id } }).then(function(dbSignup) {
+      res.render("signup", {
+        signup: dbSignup
       });
     });
   });

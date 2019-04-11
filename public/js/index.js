@@ -1,47 +1,47 @@
 // Get references to page elements
-var $exampleName = $("#example-name");
-var $exampleEmail = $("#example-email");
+var $signupName = $("#signup-name");
+var $signupEmail = $("#signup-email");
 var $submitBtn = $("#submit");
-var $exampleList = $("#example-list");
+var $signupList = $("#signup-list");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
-  saveExample: function(example) {
+  saveSignup: function(signup) {
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
       },
       type: "POST",
-      url: "api/examples",
-      data: JSON.stringify(example)
+      url: "api/signups",
+      data: JSON.stringify(signup)
     });
   },
-  getExamples: function() {
+  getSignups: function() {
     return $.ajax({
-      url: "api/examples",
+      url: "api/signups",
       type: "GET"
     });
   },
-  deleteExample: function(id) {
+  deleteSignup: function(id) {
     return $.ajax({
-      url: "api/examples/" + id,
+      url: "api/signups/" + id,
       type: "DELETE"
     });
   }
 };
 
-// refreshExamples gets new examples from the db and repopulates the list
-var refreshExamples = function() {
-  API.getExamples().then(function(data) {
-    var $examples = data.map(function(example) {
+// refreshSignups gets new signups from the db and repopulates the list
+var refreshSignups = function() {
+  API.getSignup().then(function(data) {
+    var $Signup = data.map(function(signup) {
       var $a = $("<a>")
-        .text(example.text)
-        .attr("href", "/example/" + example.id);
+        .text(Signup.text)
+        .attr("href", "/signup/" + signup.id);
 
       var $li = $("<li>")
         .attr({
           class: "list-group-item",
-          "data-id": example.id
+          "data-id": signup.id
         })
         .append($a);
 
@@ -54,46 +54,46 @@ var refreshExamples = function() {
       return $li;
     });
 
-    $exampleList.empty();
-    $exampleList.append($examples);
+    $signupList.empty();
+    $signupList.append($signups);
   });
 };
 
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
+// handleFormSubmit is called whenever we submit a new signup
+// Save the new signup to the db and refresh the list
 var handleFormSubmit = function(event) {
   event.preventDefault();
 
-  var example = {
-    name: $exampleName.val().trim(),
-    email: $exampleEmail.val().trim()
+  var signup = {
+    name: $signupName.val().trim(),
+    email: $signupEmail.val().trim()
   };
 
-  if (!(example.name && example.email)) {
+  if (!(signup.name && signup.email)) {
     alert("You must enter an name and email!");
     return;
   }
 
-  API.saveExample(example).then(function() {
-    refreshExamples();
+  API.saveSignup(signup).then(function() {
+    refreshSignup();
   });
 
-  $exampleName.val("");
-  $exampleEmail.val("");
+  $signupName.val("");
+  $signupEmail.val("");
 };
 
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
+// handleDeleteBtnClick is called when an signup's delete button is clicked
+// Remove the signup from the db and refresh the list
 var handleDeleteBtnClick = function() {
   var idToDelete = $(this)
     .parent()
     .attr("data-id");
 
-  API.deleteExample(idToDelete).then(function() {
-    refreshExamples();
+  API.deleteSignup(idToDelete).then(function() {
+    refreshSignup();
   });
 };
 
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);
+$signupList.on("click", ".delete", handleDeleteBtnClick);

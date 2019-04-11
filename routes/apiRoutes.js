@@ -1,24 +1,24 @@
 var db = require("../models");
 
 module.exports = function(app) {
-  // Get all examples
-  app.get("/api/examples", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.json(dbExamples);
+  // Get all signups
+  app.get("/api/signups", function(req, res) {
+    db.Signup.findAll({}).then(function(dbSignups) {
+      res.json(dbSignups);
     });
   });
 
-  // Create a new example
-  app.post("/api/examples", function(req, res) {
-    db.Example.create(req.body).then(function(dbExample) {
-      res.json(dbExample);
+  // Create a new signup
+  app.post("/api/signups", function(req, res) {
+    db.Signup.create(req.body).then(function(dbSignup) {
+      res.json(dbSignup);
     });
   });
 
-  // Delete an example by id
-  app.delete("/api/examples/:id", function(req, res) {
-    db.Example.destroy({ where: { id: req.params.id } }).then(function(dbExample) {
-      res.json(dbExample);
+  // Delete an signup by id
+  app.delete("/api/signups/:id", function(req, res) {
+    db.Signup.destroy({ where: { id: req.params.id } }).then(function(dbSignup) {
+      res.json(dbSignup);
     });
   });
 };

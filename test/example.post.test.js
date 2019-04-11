@@ -9,24 +9,24 @@ chai.use(chaiHttp);
 
 var request;
 
-describe("POST /api/examples", function() {
+describe("POST /api/signups", function() {
   // Before each test begins, create a new request server for testing
-  // & delete all examples from the db
+  // & delete all signups from the db
   beforeEach(function() {
     request = chai.request(server);
     return db.sequelize.sync({ force: true });
   });
 
-  it("should save an example", function(done) {
+  it("should save an signup", function(done) {
     // Create an object to send to the endpoint
     var reqBody = {
-      name: "Example name",
-      email: "Example email"
+      name: "Signup name",
+      email: "Signup email"
     };
 
     // POST the request body to the server
     request
-      .post("/api/examples")
+      .post("/api/signups")
       .send(reqBody)
       .end(function(err, res) {
         var responseStatus = res.status;
